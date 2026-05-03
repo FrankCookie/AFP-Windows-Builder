@@ -49,34 +49,9 @@ jobs:
         7z a AFP智能分析报告系统_Windows.zip AFP完整版\
       shell: cmd
     
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Create Release and Upload
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ github.run_number }}
-        release_name: AFP智能分析系统 v${{ github.run_number }}
-        body: |
-          AFP智能分析报告系统 Windows版本
-          
-          ## 下载与安装
-          1. 下载 AFP智能分析报告系统_Windows.zip
-          2. 解压到任意文件夹
-          3. 双击 AFP智能分析报告系统.exe 即可运行
-          
-          ## 系统要求
-          - Windows 10/11
-          - 无需安装Python或其他依赖
-        draft: false
-        prerelease: false
-    
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist/AFP智能分析报告系统_Windows.zip
-        asset_name: AFP智能分析报告系统_Windows.zip
-        asset_content_type: application/zip
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_RUN_NUMBER: ${{ github.run_number }}
+      run: python "%GITHUB_WORKSPACE%/.github/workflows/create_release.py"
