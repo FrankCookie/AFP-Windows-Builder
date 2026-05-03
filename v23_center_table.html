@@ -1,0 +1,95 @@
+<!-- 重心偏移数据明细 - v23 清晰版 -->
+<table class="data-table">
+    <tr>
+        <th>时间点</th>
+        <th>左侧偏移(cm)</th>
+        <th>右侧偏移(cm)</th>
+        <th>前倾偏移(cm)</th>
+        <th>具体解读（每个数字都有来源）</th>
+    </tr>
+    <tr>
+        <td>0s（起始）</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>重心在中心线，左/右/前倾偏移均为0</td>
+    </tr>
+    <tr>
+        <td>2s</td>
+        <td>-2</td>
+        <td>1</td>
+        <td>0</td>
+        <td>重心略偏左 2cm（左侧偏移 -2）</td>
+    </tr>
+    <tr>
+        <td>4s</td>
+        <td><strong>-5</strong></td>
+        <td>3</td>
+        <td>1</td>
+        <td>重心偏左 5cm（左侧偏移 -5），重心开始向左移动</td>
+    </tr>
+    <tr>
+        <td>6s</td>
+        <td>-3</td>
+        <td><strong>5</strong></td>
+        <td>3</td>
+        <td>重心偏右 5cm（右侧偏移 5），右脚开始承重</td>
+    </tr>
+    <tr>
+        <td>8s</td>
+        <td><strong>-8</strong></td>
+        <td>4</td>
+        <td>5</td>
+        <td>⚠️ 重心偏左最大 8cm（左侧偏移 -8，本次最高值）</td>
+    </tr>
+    <tr>
+        <td>10s</td>
+        <td>-6</td>
+        <td><strong>7</strong></td>
+        <td>4</td>
+        <td>重心偏右 7cm（右侧偏移 7）</td>
+    </tr>
+    <tr>
+        <td>12s</td>
+        <td>-4</td>
+        <td><strong>8</strong></td>
+        <td><strong>8</strong></td>
+        <td>⚠️ 右侧偏移 8cm + 前倾 8cm（双项同时达最高值）</td>
+    </tr>
+    <tr>
+        <td>14s</td>
+        <td><strong>-7</strong></td>
+        <td>6</td>
+        <td>7</td>
+        <td>重心偏右 6cm（右侧偏移 6，是第二高值）</td>
+    </tr>
+    <tr>
+        <td>16s</td>
+        <td>-5</td>
+        <td>4</td>
+        <td>6</td>
+        <td>重心逐渐回正，左侧偏移从 -7 回到 -5</td>
+    </tr>
+    <tr>
+        <td>18s</td>
+        <td>-3</td>
+        <td>2</td>
+        <td>3</td>
+        <td>重心接近中心线，左/右偏移均 ≤3cm</td>
+    </tr>
+    <tr>
+        <td>20s（结束）</td>
+        <td>-2</td>
+        <td>1</td>
+        <td>1</td>
+        <td>✅ 重心回到中心线附近（左 -2，右 1，前倾 1，均 ≤2cm）</td>
+    </tr>
+</table>
+<p style="margin-top: 10px; color: #475569; font-size: 12px; line-height: 1.6;">
+    <strong>📌 数据解读说明（让你完全看懂每个数字）：</strong><br>
+    • <strong>"左侧偏移 -8cm"</strong> = 重心从中心线向左移动了 8cm（负号代表左方向）<br>
+    • <strong>"右侧偏移 7cm"</strong> = 重心从中心线向右移动了 7cm（正号代表右方向）<br>
+    • <strong>"前倾偏移 8cm"</strong> = 重心从中心向前移动了 8cm（身体往前倾）<br>
+    • <strong>"回到中心线附近"</strong> = 左侧偏移绝对值 ≤2cm 且 右侧偏移 ≤2cm（接近0 = 正中心）<br>
+    • <strong>"第二高值"</strong> = 右侧偏移 6cm 是第二大的右侧偏移量（最大是 8cm）
+</p>

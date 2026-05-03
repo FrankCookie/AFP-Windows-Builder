@@ -1,0 +1,57 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    
+    - name: Build executable with PyInstaller
+      run: |
+        pyinstaller --onefile ^
+          --name AFP智能分析报告系统 ^
+          --add-data "templates;templates" ^
+          --add-data "static;static" ^
+          --hidden-import flask ^
+          --hidden-import werkzeug ^
+          --collect-all flask ^
+          afp_mvp_v2.py
+      shell: cmd
+    
+    - name: Create distribution folder
+      run: |
+        mkdir dist\AFP完整版
+        copy dist\AFP智能分析报告系统.exe dist\AFP完整版\
+        xcopy templates dist\AFP完整版\templates\ /E /I
+        xcopy static dist\AFP完整版\static\ /E /I
+        mkdir dist\AFP完整版\uploads
+        echo. > dist\AFP完整版\uploads\README.txt
+        cd dist
+        7z a AFP智能分析报告系统_Windows.zip AFP完整版\
+      shell: cmd
+    
+    - name: Upload EXE as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: AFP-Windows-EXE
+        path: dist/AFP智能分析报告系统_Windows.zip
+        retention-days: 90
