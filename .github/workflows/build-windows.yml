@@ -49,9 +49,54 @@ jobs:
         7z a AFP智能分析报告系统_Windows.zip AFP完整版\
       shell: cmd
     
-    - name: Upload EXE as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: AFP-Windows-EXE
-        path: dist/AFP智能分析报告系统_Windows.zip
-        retention-days: 30
+    - name: Upload to Release
+      run: |
+        python -c "
+import os, urllib.request, json, ssl
+
+# 禁用SSL验证
+ssl._create_default_https_context = ssl._create_unverified_context
+
+token = os.environ['GITHUB_TOKEN']
+repo = os.environ['GITHUB_REPOSITORY']
+run_id = os.environ['GITHUB_RUN_ID']
+
+# 查找现有的 v1.0-final release 或创建新的
+url = f'https://api.github.com/repos/{repo}/releases/tags/v1.0-final'
+
+req = urllib.request.Request(url, headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'})
+try:
+    with urllib.request.urlopen(req) as resp:
+        release = json.loads(resp.read())
+        release_id = release['id']
+        upload_url = release['upload_url'].replace('{?name,label}', '')
+except Exception:
+    # 如果不存在，创建新的
+    create_url = f'https://api.github.com/repos/{repo}/releases'
+    data = {'tag_name': 'v1.0-final', 'name': 'AFP智能分析系统 v1.0', 'body': 'Windows版本', 'draft': False}
+    req = urllib.request.Request(create_url, data=json.dumps(data).encode(), headers={'Authorization': f'token {token}', 'Content-Type': 'application/json'}, method='POST')
+    with urllib.request.urlopen(req) as resp:
+        release = json.loads(resp.read())
+        release_id = release['id']
+        upload_url = release['upload_url'].replace('{?name,label}', '')
+
+# 上传文件
+filename = 'AFP智能分析报告系统_Windows.zip'
+upload_url = f'{upload_url}?name={urllib.parse.quote(filename)}'
+
+with open('dist/AFP智能分析报告系统_Windows.zip', 'rb') as f:
+    data = f.read()
+
+req = urllib.request.Request(upload_url, data=data, headers={'Authorization': f'token {token}', 'Content-Type': 'application/zip'}, method='POST')
+try:
+    with urllib.request.urlopen(req) as resp:
+        asset = json.loads(resp.read())
+        print(f'上传成功: {asset[\"browser_download_url\"]}')
+except Exception as e:
+    print(f'上传失败: {e}')
+"
+      shell: cmd
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_RUN_ID: ${{ github.run_id }}
