@@ -55,30 +55,3 @@ jobs:
         name: AFP-Windows-EXE
         path: dist/AFP智能分析报告系统_Windows.zip
         retention-days: 90
-    
-    - name: Create Release
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v1.0.${{ github.run_number }}
-        name: AFP智能分析系统 v1.0.${{ github.run_number }}
-        body: |
-          🎉 AFP智能分析报告系统 Windows版本
-          
-          ## 下载与安装
-          1. 下载 AFP智能分析报告系统_Windows.zip
-          2. 解压到任意文件夹
-          3. 双击 AFP智能分析报告系统.exe 即可运行
-          
-          ## 系统要求
-          - Windows 10/11
-          - 无需安装Python或其他依赖
-          
-          ## 构建信息
-          - 构建时间: ${{ github.event.head_commit.timestamp }}
-          - 提交: ${{ github.sha }}
-        files: dist/AFP智能分析报告系统_Windows.zip
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
