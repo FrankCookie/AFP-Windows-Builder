@@ -29,10 +29,12 @@ jobs:
       run: |
         pyinstaller --onefile ^
           --name AFP智能分析报告系统 ^
-          --add-data "templates;templates" ^
-          --add-data "static;static" ^
           --hidden-import flask ^
           --hidden-import werkzeug ^
+          --hidden-import flask_cors ^
+          --hidden-import numpy ^
+          --hidden-import openpyxl ^
+          --hidden-import pandas ^
           --collect-all flask ^
           afp_mvp_v2.py
       shell: cmd
@@ -41,8 +43,6 @@ jobs:
       run: |
         mkdir dist\AFP完整版
         copy dist\AFP智能分析报告系统.exe dist\AFP完整版\
-        xcopy templates dist\AFP完整版\templates\ /E /I
-        xcopy static dist\AFP完整版\static\ /E /I
         mkdir dist\AFP完整版\uploads
         echo. > dist\AFP完整版\uploads\README.txt
         cd dist
