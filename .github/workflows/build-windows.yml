@@ -58,7 +58,7 @@ jobs:
     
     - name: Create Release
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: v1.0.${{ github.run_number }}
         name: AFP智能分析系统 v1.0.${{ github.run_number }}
