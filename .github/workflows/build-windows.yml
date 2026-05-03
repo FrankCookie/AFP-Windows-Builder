@@ -49,9 +49,9 @@ jobs:
         7z a AFP智能分析报告系统_Windows.zip AFP完整版\
       shell: cmd
     
-    - name: Create Release and Upload
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-        GITHUB_RUN_NUMBER: ${{ github.run_number }}
-      run: python "%GITHUB_WORKSPACE%/.github/workflows/create_release.py"
+    - name: Upload EXE as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: AFP-Windows-EXE
+        path: dist/AFP智能分析报告系统_Windows.zip
+        retention-days: 30
